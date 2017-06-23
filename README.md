@@ -2,6 +2,8 @@
 
 Minimalistic Go Template based Generator
 
+[![Build Status](https://www.bitrise.io/app/bf4a1f1b34d5648f/status.svg?token=fSHjhJa7ZSUH_61azXd_xg&branch=master)](https://www.bitrise.io/app/bf4a1f1b34d5648f)
+
 ## How to use
 
 Run:
