@@ -31,7 +31,7 @@ then runs [Go template](https://golang.org/pkg/text/template/) on all `.gg` file
 with Inventory defined in the `gg.conf.json` exposed as Inventory for the Go Template,
 then saves the generated files with the same name without `.gg` extension.
 
-`gotgen` add a few additional utility functions, in addition to what's available in Go's template package. For the completel list see the `cmd/generate.go` file's `createAvailableTemplateFunctions` function. A few examples:
+In addition to what's available in the standard Go template package `gotgen` adds a few additional utility functions you can use in your `.gg` templates. For the complete list see the `cmd/generate.go` file's `createAvailableTemplateFunctions` function. A few examples:
 
 - `var`: `{{ var "KeyID" }}`: Fail if KeyID isn't specified in the inventory. Otherwise it works the same as `{{ .KeyID }}` would.
 - `getenv`: `{{ getenv "ENV_VAR_KEY" }}`: Get the value of `ENV_VAR_KEY` env var. If the env var does not exist it'll result in an empty string, just like Go's `os.Getenv`.
