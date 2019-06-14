@@ -5,12 +5,12 @@ app:
   envs:
   - GOFLAGS: -mod=vendor
     opts:
-      title: Opt-in vendoring
       description: |
         Since Go 1.12 vendoring is an opt-in feature when working outside of GOPATH.
         You can enable it via the `-mod=vendor` flag or specifying that as a `GOFLAGS` env var.
         More info https://github.com/golang/go/wiki/Modules#how-do-i-use-vendoring-with-modules-is-vendoring-going-away
       is_expand: false
+      title: Opt-in vendoring
 workflows:
   build:
     steps:
@@ -39,6 +39,20 @@ workflows:
             go mod vendor
   test:
     steps:
+    - script:
+        title: Install test/lint tools
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+
+            # disable GOFLAGS otherwise you'll get an error like:
+            #  Failed to install golint: go get: disabled by -mod=vendor
+            export GOFLAGS=""
+            # also cd to a temp dir so that "go get" installs the tool **outside** this go module
+            cd /tmp
+
+            go get -u golang.org/x/lint/golint
     - go-list: {}
     - golint: {}
     - errcheck: {}
