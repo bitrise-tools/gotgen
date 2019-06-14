@@ -52,7 +52,8 @@ workflows:
             # also cd to a temp dir so that "go get" installs the tool **outside** this go module
             cd /tmp
 
-            go get -u golang.org/x/lint/golint
+            go "get" "-u" "golang.org/x/lint/golint"
+            go "get" "-u" "github.com/kisielk/errcheck"
     - go-list: {}
     - golint: {}
     - errcheck: {}
