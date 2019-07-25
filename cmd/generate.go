@@ -67,6 +67,9 @@ func generate(cmd *cobra.Command, args []string) error {
 		log.Println(colorstring.Blue("Using only the specified template file: " + ggTemplateFilePathFlag))
 		oFilePth := outputFilePathFlag
 		if len(oFilePth) < 1 {
+			if !strings.HasSuffix(ggTemplateFilePathFlag, ".gg") {
+				return errors.Errorf("If you specify an input file path that either has to be a .gg file (.gg extension) or also specify the out-file-path option to specify where the generated output should be stored")
+			}
 			oFilePth = strings.TrimSuffix(ggTemplateFilePathFlag, ".gg")
 		}
 		templateFiles[ggTemplateFilePathFlag] = oFilePth
