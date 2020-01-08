@@ -36,6 +36,9 @@ In addition to what's available in the standard Go template package `gotgen` add
 - `var`: `{{ var "KeyID" }}`: Fail if KeyID isn't specified in the inventory. Otherwise it works the same as `{{ .KeyID }}` would.
 - `getenv`: `{{ getenv "ENV_VAR_KEY" }}`: Get the value of `ENV_VAR_KEY` env var. If the env var does not exist it'll result in an empty string, just like Go's `os.Getenv`.
 - `getenvRequired`: `{{ getenvRequired "ENV_VAR_KEY" }}`: Same as `getenv` but it will fail if the env var isn't set or if its value is an empty string.
+- `yaml`: `{{ obj | yaml }}`: Generates yaml string for the provided object.
+- `indentWithSpaces`: `{{ "some\n multiline\n text" | indentWithSpaces 4 }}`: Indents the specified string with the number of spaces you provide.
+- `add`, `subtract`, `multiply`, `divide`, `modulo`: `{{ 6 | add 2 }}`: Simple arithmetic functions.
 
 
 ## Example config and template file
@@ -49,7 +52,9 @@ Example `gg.conf.json` config file:
     "KeyOne": "value for key one",
     "KeyTwo": 2,
     "Nested": {
-      "Key1": "nested key 1"
+      "KeyA": {
+        "Key1": "KeyA-Key1 value"
+      }
     }
   },
   "delimiter": {
@@ -72,7 +77,7 @@ For example, if you run "gogen generate" now in this directory, the generated "e
 
 - KeyOne here: {{ var "KeyOne" }}
 - and KeyTwo here: {{ .KeyTwo }}
-- and Nested.Key1 here: {{ .Nested.Key1 }}
+- and Nested.KeyA.Key1 here: {{ .Nested.KeyA.Key1 }}
 
 And the following section will be showns based on KeyBool's value:
 
@@ -81,6 +86,19 @@ And the following section will be showns based on KeyBool's value:
 Environment variables can also be included, with {{ getenv "ENV_VAR_KEY" }},
 which will result in an empty string if ENV_VAR_KEY is not set. If you want the template
 to fail if the env var isn't set use getenvRequired instead.
+
+Inline yaml embedding:
+{{ .Nested | yaml }}
+
+Indentation:
+{{ "a\nb\n" | indentWithSpaces 4 }}
+
+Some math:
+add: {{ 6 | add 2 }}
+subtract: {{ 6 | subtract 2 }}
+multiply: {{ 6 | multiply 2 }}
+divide: {{ 6 | divide 2 }}
+modulo: {{ 6 | modulo 2 }}
 
 That's all you need to know.
 
